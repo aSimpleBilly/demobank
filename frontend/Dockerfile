@@ -20,26 +20,8 @@ ENV GENERATE_SOURCEMAP=false
 ENV INLINE_RUNTIME_CHUNK=false
 ENV NODE_OPTIONS=--max-old-space-size=2048
 
-# Debug: Check what we have
-RUN echo "=== Directory Structure ===" && \
-    ls -la && \
-    echo "=== Package.json exists ===" && \
-    test -f package.json && echo "YES" || echo "NO" && \
-    echo "=== Node modules ===" && \
-    ls -la node_modules/.bin/ | head -5 && \
-    echo "=== React Scripts ===" && \
-    npm list react-scripts
-
-# Build the app with detailed error output
-RUN npm run build 2>&1 || ( \
-    echo "=== BUILD FAILED ===" && \
-    echo "=== Checking for common issues ===" && \
-    echo "Package.json:" && cat package.json && \
-    echo "Node version:" && node --version && \
-    echo "NPM version:" && npm --version && \
-    echo "Available scripts:" && npm run && \
-    echo "=== End Debug Info ===" && \
-    exit 1)
+# Build the app
+RUN npm run build
 
 # Stage 2 — serve with nginx
 FROM nginx:1.25-alpine
