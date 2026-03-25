@@ -18,9 +18,28 @@ ARG REACT_APP_API_URL=http://banking-backend-svc:4000
 ENV REACT_APP_API_URL=$REACT_APP_API_URL
 ENV GENERATE_SOURCEMAP=false
 ENV INLINE_RUNTIME_CHUNK=false
+ENV NODE_OPTIONS=--max-old-space-size=2048
 
-# Build the app with CI optimizations
-RUN npm run build
+# Debug: Check what we have
+RUN echo "=== Directory Structure ===" && \
+    ls -la && \
+    echo "=== Package.json exists ===" && \
+    test -f package.json && echo "YES" || echo "NO" && \
+    echo "=== Node modules ===" && \
+    ls -la node_modules/.bin/ | head -5 && \
+    echo "=== React Scripts ===" && \
+    npm list react-scripts
+
+# Build the app with detailed error output
+RUN npm run build 2>&1 || ( \
+    echo "=== BUILD FAILED ===" && \
+    echo "=== Checking for common issues ===" && \
+    echo "Package.json:" && cat package.json && \
+    echo "Node version:" && node --version && \
+    echo "NPM version:" && npm --version && \
+    echo "Available scripts:" && npm run && \
+    echo "=== End Debug Info ===" && \
+    exit 1)
 
 # Stage 2 — serve with nginx
 FROM nginx:1.25-alpine
