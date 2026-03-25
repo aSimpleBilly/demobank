@@ -1,68 +1,69 @@
 ###############################################
-# banking-frontend — Deployment
+# banking-backend — Deployment
 ###############################################
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: banking-frontend
+  name: banking-backend
   labels:
-    app: banking-frontend
+    app: banking-backend
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: banking-frontend
+      app: banking-backend
   template:
     metadata:
       labels:
-        app: banking-frontend
+        app: banking-backend
     spec:
       containers:
-        - name: banking-frontend
+        - name: banking-backend
           # Replace with your ECR image URI, e.g.:
-          # 123456789.dkr.ecr.eu-west-1.amazonaws.com/banking-frontend:latest
-          image: banking-frontend:latest
+          # 123456789.dkr.ecr.eu-west-1.amazonaws.com/banking-backend:latest
+          image: 123456789.dkr.ecr.eu-west-1.amazonaws.com/banking-backend:latest
           imagePullPolicy: IfNotPresent
           ports:
-            - containerPort: 80
+            - containerPort: 4000
+          env:
+            - name: PORT
+              value: "4000"
+            - name: NODE_ENV
+              value: "production"
           resources:
             requests:
-              cpu: "50m"
-              memory: "64Mi"
-            limits:
               cpu: "100m"
               memory: "128Mi"
+            limits:
+              cpu: "250m"
+              memory: "256Mi"
           livenessProbe:
             httpGet:
               path: /health
-              port: 80
+              port: 4000
             initialDelaySeconds: 10
             periodSeconds: 15
           readinessProbe:
             httpGet:
               path: /health
-              port: 80
+              port: 4000
             initialDelaySeconds: 5
             periodSeconds: 10
       restartPolicy: Always
 
 ---
 ###############################################
-# banking-frontend — Service (LoadBalancer)
-# Creates an AWS ELB to expose the app publicly.
-# For internal-only, change type to ClusterIP.
+# banking-backend — Service (ClusterIP)
 ###############################################
 apiVersion: v1
 kind: Service
 metadata:
-  name: banking-frontend-svc
-  annotations:
-    service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+  name: banking-backend-svc
 spec:
   selector:
-    app: banking-frontend
+    app: banking-backend
   ports:
     - protocol: TCP
-      port: 80
-      targetPort: 80
-  type: LoadBalancer
+      port: 4000
+      targetPort: 4000
+  type: ClusterIP

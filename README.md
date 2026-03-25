@@ -10,19 +10,20 @@ A full-stack banking demo with login, deposit, and withdrawal — built with Rea
 banking-app/
 ├── backend/
 │   ├── server.js        # Express API
-│   ├── package.json
-│   └── Dockerfile
+│   ├── package.json     # Node.js dependencies
+│   └── Dockerfile       # Backend container
 ├── frontend/
 │   ├── src/
 │   │   ├── App.jsx      # React app
-│   │   └── App.css
+│   │   └── App.css      # Styling
 │   ├── public/
-│   │   └── index.html
-│   ├── package.json
-│   └── Dockerfile
+│   │   └── index.html   # HTML template
+│   ├── package.json     # React dependencies
+│   └── Dockerfile       # Frontend container
 ├── k8s/
 │   ├── backend.yaml     # Deployment + ClusterIP Service
 │   └── frontend.yaml    # Deployment + LoadBalancer Service
+├── build-and-push.sh    # Build and push script
 └── README.md
 ```
 
@@ -61,6 +62,14 @@ npm start
 ---
 
 ## Build & push Docker images to ECR
+
+### Quick build and push
+```bash
+# Replace with your AWS account ID and region
+./build-and-push.sh 123456789012 eu-west-1
+```
+
+### Manual build and push
 
 ```bash
 # Authenticate with ECR

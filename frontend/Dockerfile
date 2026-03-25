@@ -2,9 +2,14 @@
 FROM node:20-alpine AS builder
 
 WORKDIR /app
+
+# Copy package files
 COPY package*.json ./
+
+# Install dependencies
 RUN npm ci
 
+# Copy source code
 COPY public/ public/
 COPY src/ src/
 
@@ -12,6 +17,7 @@ COPY src/ src/
 ARG REACT_APP_API_URL=http://banking-backend-svc:4000
 ENV REACT_APP_API_URL=$REACT_APP_API_URL
 
+# Build the app
 RUN npm run build
 
 # Stage 2 — serve with nginx
