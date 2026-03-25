@@ -1,10 +1,7 @@
 FROM node:20-alpine
 
 WORKDIR /app
-# to deploy to eks with only aws connector: https://developer.harness.io/docs/platform/connectors/cloud-providers/ref-cloud-providers/aws-connector-settings-reference/#configure-eks-for-use-with-harness
-RUN curl -Lo aws-iam-authenticator https://github.com/kubernetes-sigs/aws-iam-authenticator/releases/download/v0.5.9/aws-iam-authenticator_0.5.9_linux_amd64 \
-  && chmod +x ./aws-iam-authenticator \
-  && mv ./aws-iam-authenticator /usr/local/bin
+
 # Copy package files
 COPY package*.json ./
 
