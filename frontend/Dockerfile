@@ -7,7 +7,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install dependencies
-RUN npm install
+RUN npm install --no-optional
 
 # Copy source code
 COPY public/ public/
@@ -16,8 +16,10 @@ COPY src/ src/
 # Inject the backend API URL at build time
 ARG REACT_APP_API_URL=http://banking-backend-svc:4000
 ENV REACT_APP_API_URL=$REACT_APP_API_URL
+ENV GENERATE_SOURCEMAP=false
+ENV INLINE_RUNTIME_CHUNK=false
 
-# Build the app
+# Build the app with CI optimizations
 RUN npm run build
 
 # Stage 2 — serve with nginx
