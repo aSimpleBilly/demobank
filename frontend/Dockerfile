@@ -23,6 +23,9 @@ RUN npm run build
 # Stage 2 — serve with nginx
 FROM nginx:1.25-alpine
 
+# Install wget for health check
+RUN apk add --no-cache wget
+
 # Copy built assets
 COPY --from=builder /app/build /usr/share/nginx/html
 
