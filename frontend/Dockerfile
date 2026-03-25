@@ -4,14 +4,14 @@ FROM node:20-alpine AS builder
 WORKDIR /app
 
 # Copy package files
-COPY frontend/package*.json ./
+COPY package*.json ./
 
 # Install dependencies
 RUN npm install
 
 # Copy source code
-COPY frontend/public/ public/
-COPY frontend/src/ src/
+COPY public/ public/
+COPY src/ src/
 
 # Inject the backend API URL at build time
 ARG REACT_APP_API_URL=http://banking-backend-svc:4000
