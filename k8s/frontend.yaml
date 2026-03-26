@@ -19,9 +19,8 @@ spec:
     spec:
       containers:
         - name: banking-frontend
-          # Replace with your ECR image URI, e.g.:
-          # 123456789.dkr.ecr.eu-west-1.amazonaws.com/banking-frontend:latest
-          image: 123456789.dkr.ecr.eu-west-1.amazonaws.com/banking-frontend:latest
+          # Use the Harness registry image from successful build
+          image: pkg.harness.io/eerjnxtns4grlg5vnnjzuw/simplebanking/banking-frontend:latest
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 80
