@@ -2,7 +2,7 @@ const brands = {
   sage: {
     name: 'sage',
     logoText: 'sage',
-    logoUrl: 'https://logo.clearbit.com/sage.com',
+    logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/Sage-logo_svg.svg/512px-Sage-logo_svg.svg.png',
     subtitle: 'Your personal banking demo',
     font: "'Inter', Arial, sans-serif",
     fontImport: 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap',
@@ -48,7 +48,7 @@ const brands = {
   monzo: {
     name: 'Monzo',
     logoText: 'monzo',
-    logoUrl: 'https://logo.clearbit.com/monzo.com',
+    logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Monzo_2022_logo.svg/500px-Monzo_2022_logo.svg.png',
     subtitle: 'Your personal banking demo',
     font: "'Inter', Arial, sans-serif",
     fontImport: 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap',
