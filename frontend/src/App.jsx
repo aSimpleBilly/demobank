@@ -45,8 +45,7 @@ function Login({ onLogin }) {
     <div className="login-screen">
       <div className="login-card">
         <div className="bank-logo">
-          <span className="logo-mark">V</span>
-          <span className="logo-name">Vault</span>
+          <span className="logo-name">sage</span>
         </div>
         <p className="login-subtitle">Your personal banking demo</p>
 
@@ -173,8 +172,7 @@ function Dashboard({ token, username, onLogout }) {
     <div className="dashboard">
       <header className="dash-header">
         <div className="bank-logo small">
-          <span className="logo-mark">V</span>
-          <span className="logo-name">Vault</span>
+          <span className="logo-name">sage</span>
         </div>
         <div className="header-right">
           <span className="welcome">Hello, {account.username}</span>
