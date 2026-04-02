@@ -18,19 +18,21 @@ function Login({ onLogin }) {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [isRegister, setIsRegister] = useState(false);
 
   async function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
     setError('');
+    const endpoint = isRegister ? 'register' : 'login';
     try {
-      const res = await fetch(`${API}/api/login`, {
+      const res = await fetch(`${API}/api/${endpoint}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Login failed');
+      if (!res.ok) throw new Error(data.error || `${isRegister ? 'Registration' : 'Login'} failed`);
       onLogin(data.token, data.username);
     } catch (err) {
       setError(err.message);
@@ -54,7 +56,7 @@ function Login({ onLogin }) {
             type="text"
             value={username}
             onChange={e => setUsername(e.target.value)}
-            placeholder="alice / bob / demo"
+            placeholder={isRegister ? 'Choose a username' : 'alice / bob / demo'}
             required
             autoFocus
           />
@@ -63,22 +65,28 @@ function Login({ onLogin }) {
             type="password"
             value={password}
             onChange={e => setPassword(e.target.value)}
-            placeholder="••••••••"
+            placeholder={isRegister ? 'Choose a password' : '••••••••'}
             required
           />
           {error && <p className="error-msg">{error}</p>}
           <button type="submit" className="btn-primary" disabled={loading}>
-            {loading ? 'Signing in…' : 'Sign in'}
+            {loading ? (isRegister ? 'Creating account…' : 'Signing in…') : (isRegister ? 'Create account' : 'Sign in')}
           </button>
         </form>
 
-        <div className="demo-hint">
-          <p>Demo accounts</p>
-          <div className="demo-accounts">
-            <span onClick={() => { setUsername('alice'); setPassword('password123'); }}>alice / password123</span>
-            <span onClick={() => { setUsername('demo');  setPassword('demo'); }}>demo / demo</span>
+        <p className="toggle-auth" onClick={() => { setIsRegister(!isRegister); setError(''); }}>
+          {isRegister ? 'Already have an account? Sign in' : 'New here? Create an account'}
+        </p>
+
+        {!isRegister && (
+          <div className="demo-hint">
+            <p>Demo accounts</p>
+            <div className="demo-accounts">
+              <span onClick={() => { setUsername('alice'); setPassword('password123'); }}>alice / password123</span>
+              <span onClick={() => { setUsername('demo');  setPassword('demo'); }}>demo / demo</span>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
@@ -115,9 +123,13 @@ function Dashboard({ token, username, onLogout }) {
     const res = await fetch(`${API}/api/account`, {
       headers: { Authorization: token },
     });
+    if (!res.ok) {
+      onLogout();
+      return;
+    }
     const data = await res.json();
     setAccount(data);
-  }, [token]);
+  }, [token, onLogout]);
 
   useEffect(() => { fetchAccount(); }, [fetchAccount]);
 

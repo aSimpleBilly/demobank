@@ -118,6 +118,16 @@ body {
 .btn-primary:active { transform: scale(0.98); }
 .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
 
+.toggle-auth {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 13px;
+  color: var(--accent);
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.toggle-auth:hover { color: var(--accent2); }
+
 .demo-hint {
   margin-top: 28px;
   border-top: 1px solid var(--border);

@@ -24,6 +24,25 @@ function requireAuth(req, res, next) {
   next();
 }
 
+// POST /api/register
+app.post('/api/register', (req, res) => {
+  const { username, password } = req.body;
+  if (!username || !password) {
+    return res.status(400).json({ error: 'Username and password required' });
+  }
+  if (username.length < 3) {
+    return res.status(400).json({ error: 'Username must be at least 3 characters' });
+  }
+  if (users[username.toLowerCase()]) {
+    return res.status(409).json({ error: 'Username already taken' });
+  }
+  const key = username.toLowerCase();
+  users[key] = { password, balance: 0, transactions: [] };
+  const token = `${key}-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+  sessions[token] = key;
+  res.status(201).json({ token, username: key });
+});
+
 // POST /api/login
 app.post('/api/login', (req, res) => {
   const { username, password } = req.body;
