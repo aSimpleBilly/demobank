@@ -2,7 +2,7 @@ const brands = {
   sage: {
     name: 'sage',
     logoText: 'sage',
-    logoUrl: 'https://cdn.worldvectorlogo.com/logos/sage-3.svg',
+    logoUrl: 'https://www.sage.com/en-gb/-/media/images/sagedotcom/master/logos/sage-logo%20svg.svg',
     subtitle: 'Your personal banking demo',
     font: "'Inter', Arial, sans-serif",
     fontImport: 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap',
