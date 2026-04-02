@@ -1,7 +1,9 @@
 import { useState, useEffect, useCallback } from 'react';
 import './App.css';
+import { getBrand, applyBrand } from './brand';
 
 const API = process.env.REACT_APP_API_URL || 'http://localhost:4000';
+const brand = getBrand();
 
 function fmt(n) {
   return new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP' }).format(n);
@@ -10,6 +12,27 @@ function fmt(n) {
 function timeAgo(iso) {
   const d = new Date(iso);
   return d.toLocaleString('en-GB', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' });
+}
+
+// ---------- BRAND LOGO ----------
+function BrandLogo({ small }) {
+  const [imgFailed, setImgFailed] = useState(false);
+  const showImg = brand.logoUrl && !imgFailed;
+
+  return (
+    <div className={`bank-logo${small ? ' small' : ''}`}>
+      {showImg ? (
+        <img
+          src={brand.logoUrl}
+          alt={brand.name}
+          className="logo-img"
+          onError={() => setImgFailed(true)}
+        />
+      ) : (
+        <span className="logo-name">{brand.logoText}</span>
+      )}
+    </div>
+  );
 }
 
 // ---------- LOGIN ----------
@@ -44,10 +67,8 @@ function Login({ onLogin }) {
   return (
     <div className="login-screen">
       <div className="login-card">
-        <div className="bank-logo">
-          <span className="logo-name">sage</span>
-        </div>
-        <p className="login-subtitle">Your personal banking demo</p>
+        <BrandLogo />
+        <p className="login-subtitle">{brand.subtitle}</p>
 
         <form onSubmit={handleSubmit} className="login-form">
           <label>Username</label>
@@ -171,9 +192,7 @@ function Dashboard({ token, username, onLogout }) {
   return (
     <div className="dashboard">
       <header className="dash-header">
-        <div className="bank-logo small">
-          <span className="logo-name">sage</span>
-        </div>
+        <BrandLogo small />
         <div className="header-right">
           <span className="welcome">Hello, {account.username}</span>
           <button className="btn-ghost" onClick={handleLogout}>Sign out</button>
@@ -250,6 +269,8 @@ export default function App() {
     const u = sessionStorage.getItem('vault_user');
     return t ? { token: t, username: u } : null;
   });
+
+  useEffect(() => { applyBrand(brand); }, []);
 
   function handleLogin(token, username) {
     sessionStorage.setItem('vault_token', token);
