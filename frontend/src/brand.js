@@ -91,7 +91,7 @@ const brands = {
   },
 };
 
-const DEFAULT_BRAND = 'vault';
+const DEFAULT_BRAND = 'sage';
 
 export function getBrand() {
   const key = (process.env.REACT_APP_BRAND || DEFAULT_BRAND).toLowerCase();
