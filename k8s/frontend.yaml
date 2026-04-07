@@ -17,6 +17,8 @@ spec:
       labels:
         app: banking-frontend
     spec:
+      imagePullSecrets:
+        - name: harness-registry
       containers:
         - name: banking-frontend
           # Use the Harness registry image from successful build
