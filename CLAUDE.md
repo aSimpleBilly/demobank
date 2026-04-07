@@ -49,3 +49,8 @@ kubectl apply -f k8s/frontend.yaml   # Deployment (2 replicas) + LoadBalancer Se
 - No router in the frontend — single-page app with conditional rendering (auth state drives Login vs Dashboard).
 - Frontend `package.json` has `"proxy": "http://localhost:4000"` for local dev API proxying.
 - Demo accounts: `alice/password123`, `bob/letmein`, `demo/demo`.
+
+## Additional Documentation
+
+- [Harness Pipeline Setup](docs/ai/HARNESS_PIPELINE.md) — CI/CD pipeline configuration, variables, and troubleshooting
+- [Infrastructure Strategy](docs/ai/INFRASTRUCTURE_STRATEGY.md) — deployment models, EKS architecture, and scaling plans
