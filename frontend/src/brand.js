@@ -67,9 +67,31 @@ const brands = {
     },
     balanceGradient: 'linear-gradient(135deg, #1b1b1b 0%, #2d2d2d 100%)',
   },
+  lloyds: {
+    name: 'Lloyds',
+    logoText: 'Lloyds',
+    logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/6/65/Lloyds_2024_wordmark.svg',
+    subtitle: 'Your personal banking demo',
+    font: "'Inter', Arial, sans-serif",
+    fontImport: 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap',
+    colors: {
+      bg:         '#f5f5f5',
+      surface:    '#ffffff',
+      surface2:   '#f0f0f0',
+      border:     '#e0e0e0',
+      text:       '#1b1b1b',
+      muted:      '#6b6b6b',
+      accent:     '#006A4D',
+      accent2:    '#006A4D',
+      accentDark: '#00482F',
+      green:      '#11B67A',
+      red:        '#e51515',
+    },
+    balanceGradient: 'linear-gradient(135deg, #006A4D 0%, #00482F 100%)',
+  },
 };
 
-const DEFAULT_BRAND = 'sage';
+const DEFAULT_BRAND = 'vault';
 
 export function getBrand() {
   const key = (process.env.REACT_APP_BRAND || DEFAULT_BRAND).toLowerCase();
