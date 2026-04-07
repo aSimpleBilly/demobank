@@ -91,7 +91,7 @@ const brands = {
   },
 };
 
-const DEFAULT_BRAND = 'sage';
+const DEFAULT_BRAND = 'lloyds';
 
 export function getBrand() {
   const key = (process.env.REACT_APP_BRAND || DEFAULT_BRAND).toLowerCase();
