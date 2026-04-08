@@ -89,9 +89,31 @@ const brands = {
     },
     balanceGradient: 'linear-gradient(135deg, #006A4D 0%, #00482F 100%)',
   },
+  accessgroup: {
+    name: 'The Access Group',
+    logoText: 'the access group',
+    logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/8/8e/The_Access_Group_logo.svg',
+    subtitle: 'Your personal banking demo',
+    font: "'Inter', Arial, sans-serif",
+    fontImport: 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap',
+    colors: {
+      bg:         '#f5f5f5',
+      surface:    '#ffffff',
+      surface2:   '#f0f0f0',
+      border:     '#e0e0e0',
+      text:       '#1a1a2e',
+      muted:      '#6b6b6b',
+      accent:     '#00B0B9',
+      accent2:    '#009EA0',
+      accentDark: '#008A8F',
+      green:      '#00B0B9',
+      red:        '#E5004B',
+    },
+    balanceGradient: 'linear-gradient(135deg, #00B0B9 0%, #008A8F 100%)',
+  },
 };
 
-const DEFAULT_BRAND = 'lloyds';
+const DEFAULT_BRAND = 'accessgroup';
 
 export function getBrand() {
   const key = (process.env.REACT_APP_BRAND || DEFAULT_BRAND).toLowerCase();
