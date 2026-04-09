@@ -113,7 +113,7 @@ const brands = {
   },
 };
 
-const DEFAULT_BRAND = 'accessgroup';
+const DEFAULT_BRAND = 'vault';
 
 export function getBrand() {
   const key = (process.env.REACT_APP_BRAND || DEFAULT_BRAND).toLowerCase();
