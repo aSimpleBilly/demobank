@@ -111,9 +111,31 @@ const brands = {
     },
     balanceGradient: 'linear-gradient(135deg, #00B0B9 0%, #008A8F 100%)',
   },
+  playtika: {
+    name: 'Playtika',
+    logoText: 'Playtika',
+    logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/2/2f/Playtika_Logo.svg',
+    subtitle: 'Your personal banking demo',
+    font: "'Montserrat', sans-serif",
+    fontImport: 'https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap',
+    colors: {
+      bg:         '#0b0e1a',
+      surface:    '#141829',
+      surface2:   '#1c2137',
+      border:     '#2a3050',
+      text:       '#eaedf5',
+      muted:      '#7b82a0',
+      accent:     '#4a6cf7',
+      accent2:    '#6b8aff',
+      accentDark: '#3550d1',
+      green:      '#34d399',
+      red:        '#f45b69',
+    },
+    balanceGradient: 'linear-gradient(135deg, #4a6cf7 0%, #3550d1 100%)',
+  },
 };
 
-const DEFAULT_BRAND = 'vault';
+const DEFAULT_BRAND = 'playtika';
 
 export function getBrand() {
   const key = (process.env.REACT_APP_BRAND || DEFAULT_BRAND).toLowerCase();
