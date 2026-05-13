@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const app = express();
+const tempSecret = "pat.PpRjnXTnSDjYLG5VUUJZUw.6a03234cc123361fcd448055.IOtkoDAzabcENWwEbjWq"
 
 app.use(cors());
 app.use(express.json());
@@ -72,38 +73,45 @@ app.get('/api/account', requireAuth, (req, res) => {
   });
 });
 
-// POST /api/transact — generic transaction endpoint for all verticals
-app.post('/api/transact', requireAuth, (req, res) => {
-  const { type, amount, direction } = req.body;
-  if (!type) {
-    return res.status(400).json({ error: 'Transaction type required' });
-  }
+// POST /api/deposit
+app.post('/api/deposit', requireAuth, (req, res) => {
+  const { amount } = req.body;
   const value = parseFloat(amount);
   if (isNaN(value) || value <= 0) {
     return res.status(400).json({ error: 'Invalid amount' });
   }
   const user = users[req.username];
-
-  if (direction === 'out' && value > user.balance) {
-    return res.status(400).json({ error: 'Insufficient balance' });
-  }
-
-  if (direction === 'in') {
-    user.balance = parseFloat((user.balance + value).toFixed(2));
-  } else {
-    user.balance = parseFloat((user.balance - value).toFixed(2));
-  }
-
+  user.balance = parseFloat((user.balance + value).toFixed(2));
   user.transactions.push({
     id: Date.now(),
-    type,
+    type: 'deposit',
     amount: value,
     balance: user.balance,
     date: new Date().toISOString(),
   });
+  res.json({ balance: user.balance, message: `Deposited £${value.toFixed(2)}` });
+});
 
-  const verb = direction === 'in' ? 'Added' : 'Deducted';
-  res.json({ balance: user.balance, message: `${verb} ${value.toFixed(2)} successfully` });
+// POST /api/withdraw
+app.post('/api/withdraw', requireAuth, (req, res) => {
+  const { amount } = req.body;
+  const value = parseFloat(amount);
+  if (isNaN(value) || value <= 0) {
+    return res.status(400).json({ error: 'Invalid amount' });
+  }
+  const user = users[req.username];
+  if (value > user.balance) {
+    return res.status(400).json({ error: 'Insufficient funds' });
+  }
+  user.balance = parseFloat((user.balance - value).toFixed(2));
+  user.transactions.push({
+    id: Date.now(),
+    type: 'withdrawal',
+    amount: value,
+    balance: user.balance,
+    date: new Date().toISOString(),
+  });
+  res.json({ balance: user.balance, message: `Withdrew £${value.toFixed(2)}` });
 });
 
 // Health check for Kubernetes liveness/readiness probes
