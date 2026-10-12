@@ -1,0 +1,51 @@
+pipeline:
+  id: pipeline_aSimpleBilly_demobank_build_505b
+  name: pipeline_aSimpleBilly_demobank_build_505b
+  stages:
+    - name: Build and Test
+      id: build_and_test
+      runtime: cloud
+      platform:
+        os: linux
+        arch: amd64
+      clone:
+        enabled: true
+      cache:
+        enabled: true
+      steps:
+        - name: Install Frontend Dependencies
+          id: install_frontend
+          run:
+            shell: bash
+            script: |-
+              cd frontend
+              npm ci
+        - name: Build Frontend
+          id: build_frontend
+          run:
+            shell: bash
+            script: |-
+              cd frontend
+              npm run build
+        - name: Test Frontend
+          id: test_frontend
+          run:
+            shell: bash
+            script: |-
+              mkdir -p .harness/reports .harness/coverage
+              cd frontend
+              npm install --no-save jest-junit
+              CI=true JEST_JUNIT_OUTPUT_DIR=../.harness/reports JEST_JUNIT_OUTPUT_NAME=junit.xml npm test -- --reporters=default --reporters=jest-junit --coverage --coverageReporters=lcov --coverageDirectory=../.harness/coverage
+            report:
+              type: junit
+              paths:
+                - .harness/reports/junit.xml
+        - name: Upload Coverage
+          id: upload_coverage
+          run:
+            shell: bash
+            script: |-
+              test -s ".harness/coverage/lcov.info"
+              hcli cov upload --file=".harness/coverage/lcov.info"
+  tags:
+    onboarding: "true"
